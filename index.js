@@ -96,6 +96,14 @@
       const userId = ctx.from.id;
       const now = Date.now();
 
+        db.run(`UPDATE orders SET status = 'paid' WHERE user_id = ? AND status = 'pending'`, [userId], (err) => {
+  if (err) {
+    console.error('Gagal update status order:', err);
+  } else {
+    console.log('Order diperbarui menjadi paid');
+  }
+});
+
       db.get(`SELECT paket, status FROM orders WHERE user_id = ? AND status = 'pending'`, [userId], (err, row) => {
         if (row) {
           const pkg = paketList[row.paket];
