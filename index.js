@@ -289,12 +289,17 @@
             minute: '2-digit'
           });
 
-          const captionText =
-            `📥 Bukti pembayaran dari ${username}\n` +
-            `🆔 ID: \`${userId}\`\n` +
-            `📦 Paket: *${row.paket}*\n` +
-            `🕒 Tanggal: *${waktu}*\n\n` +
-            `📝 Catatan: ${userCaption}`;
+          const safeUsername = username.replace(/_/g, '\\_');
+const safePaket = row.paket.replace(/[*_`]/g, ''); // hilangkan simbol yang bikin error
+const safeCatatan = userCaption.replace(/[*_`]/g, ''); // jika user bisa input bebas
+const safeWaktu = waktu.replace(/[*_`]/g, '');
+
+const captionText =
+  `📥 Bukti pembayaran dari ${safeUsername}\n` +
+  `🆔 ID: \`${userId}\`\n` +
+  `📦 Paket: *${safePaket}*\n` +
+  `🕒 Tanggal: *${safeWaktu}*\n\n` +
+  `📝 Catatan: ${safeCatatan}`;
 
 
         ADMIN_CHAT_IDS.forEach(adminId => {
